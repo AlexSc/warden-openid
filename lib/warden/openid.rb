@@ -51,6 +51,10 @@ end
     end
 
     class Strategy < Warden::Strategies::Base
+      def valid?
+        params['openid_identifier'] or env[Rack::OpenID::Response]
+      end
+
       def authenticate!
         if response = env[Rack::OpenID::RESPONSE]
           case response.status
